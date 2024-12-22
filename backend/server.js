@@ -25,11 +25,9 @@ app.get("/api/weather", async (req, res) => {
       res.json(response.data);
     } catch (error) {
       if (error.response) {
-        // If there's a response from the API
         console.error('OpenWeatherMap Error:', error.response.data);
         res.status(500).json({ error: error.response.data });
       } else {
-        // If there's no response (network error or other)
         console.error('Network Error:', error.message);
         res.status(500).json({ error: "Error fetching weather data" });
       }
