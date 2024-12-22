@@ -10,7 +10,14 @@ const PORT = 5000;
 
 console.log(process.env.API_KEY);
 
-app.use(cors());
+app.use(cors({ 
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})); 
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Mental Health API!');
+});
 
 app.get("/api/weather", async (req, res) => {
     const { city } = req.query;
