@@ -8,12 +8,13 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
-  const why = process.env.REACT_APP_BACKEND_URL;
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   const handleChange = (e) => {
     const value = e.target.value;
     setCity(value);
 
+    // Simulate suggestions logic if needed
     if (value) {
       setLoading(true);
       setError("");
@@ -23,16 +24,9 @@ function App() {
       }
 
       const timeout = setTimeout(() => {
-        axios
-          .get(`${why}/api/cities?query=${value}`)
-          .then((response) => {
-            setSuggestions(response.data);
-            setLoading(false);
-          })
-          .catch((err) => {
-            setLoading(false);
-          });
+        setLoading(false);
       }, 500);
+
       setDebounceTimeout(timeout);
     } else {
       setSuggestions([]);
@@ -50,7 +44,9 @@ function App() {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get(`${why}/api/weather?city=${city}`);
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+      );
       setWeather(response.data);
       setError("");
     } catch (err) {
