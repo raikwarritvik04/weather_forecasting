@@ -6,36 +6,11 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const [debounceTimeout, setDebounceTimeout] = useState(null);
   const apiKey = process.env.REACT_APP_API_KEY;
 
   const handleChange = (e) => {
     const value = e.target.value;
     setCity(value);
-
-    // Simulate suggestions logic if needed
-    if (value) {
-      setLoading(true);
-      setError("");
-
-      if (debounceTimeout) {
-        clearTimeout(debounceTimeout);
-      }
-
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 500);
-
-      setDebounceTimeout(timeout);
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleSelect = (city) => {
-    setCity(city);
-    setSuggestions([]);
   };
 
   const fetchWeather = async () => {
@@ -61,7 +36,6 @@ function App() {
     setCity("");
     setWeather(null);
     setError("");
-    setSuggestions([]);
   };
 
   return (
@@ -88,19 +62,6 @@ function App() {
             Reset
           </button>
         </div>
-        {suggestions.length > 0 && (
-          <div className="suggestions-dropdown">
-            {suggestions.map((suggestion, index) => (
-              <div
-                key={index}
-                className="suggestion-item"
-                onClick={() => handleSelect(suggestion)}
-              >
-                {suggestion}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
       {error && <p className="error-message">{error}</p>}
       {weather && (
