@@ -10,7 +10,7 @@ const PORT = 5000;
 
 console.log(process.env.API_KEY);
 
-app.use(cors());
+app.use(cors({ origin: "https://weather-forecasting-mary.vercel.app" }));
 
 app.get("/api/weather", async (req, res) => {
     const { city } = req.query;
